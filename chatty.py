@@ -46,7 +46,7 @@ class SandBot:
   # opening function called from outside function (sendNameandMessage)
   def chat(self, name, message):
     reply = self.match_reply(message)
-    reply = reply + " " + (random.choice(self.random_questions))
+    reply = reply + ", " + (random.choice(self.random_questions))
     return reply
 
   def match_reply(self, reply):
