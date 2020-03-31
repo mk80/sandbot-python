@@ -2,7 +2,7 @@
 
 import discord
 import re
-from chatty import sendNameandMessage
+from rule_based_chat import sendNameandMessage
 
 token_file = 'token.txt'
 token = ''
@@ -10,9 +10,10 @@ token = ''
 with open(token_file,'r') as data:
     token = data.read().replace('\n','')
 
-client = discord.Client()  # starts the discord client.
+# start discord client
+client = discord.Client()
 
-#greetings = ("hello", "Hello", "hello!", "Hello!", "hi", "Hi", "hi!", "Hi!", "hola", "Hola", "hola!", "Hola!")
+# regex definitions
 greetings = (r'h.*\ssandbot.*')
 bot_name = (r'.*sandbot.*')
 
@@ -23,12 +24,18 @@ async def on_ready():  # method expected by client. This runs once when connecte
 @client.event
 async def on_message(message):  # event that happens per any message.
     print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
+
+    # regex match for sandbot name
     found_match = re.match(bot_name,message.content.lower())
     if found_match and str(message.author) != "sandbot#0621":
+
+        # regex match for a greeting before sandbot name
         found_match = re.match(greetings,message.content.lower())
         if found_match:
+          # simply reply with greeting response
           reply = ('Hi! ' + str(message.author))
           await message.channel.send(reply)
+        # entry into chatbot
         else:
           reply = sendNameandMessage(str(message.author),message.content.lower())
           await message.channel.send(reply)
