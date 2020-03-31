@@ -21,12 +21,13 @@ class SandBot:
 
   def __init__(self):
     self.botbabble = {'describe_yourself_intent': r'.*who.*made.*',
-                        'answer_why_intent': r'why\sare.*',
+                        'answer_why_intent': r'.*why.*are.*you.*',
                         'cubed_intent': r'.*cube.*(\d+)',
                         'unsure_response_intent': r''
                             }
 
   # not used since bot is constantly monitoring
+  '''
   def greet(self, name):
     self.name = name
     #self.name = input("what is your name? ")
@@ -35,6 +36,7 @@ class SandBot:
       print("ok, have a nice earth day!")
       return
     self.chat()
+  '''
 
   def make_exit(self, reply):
     for exit_command in self.exit_commands:
@@ -46,7 +48,7 @@ class SandBot:
   # opening function called from outside function (sendNameandMessage)
   def chat(self, name, message):
     reply = self.match_reply(message)
-    reply = reply + ", " + (random.choice(self.random_questions))
+    #reply = reply + ", " + (random.choice(self.random_questions))
     return reply
 
   def match_reply(self, reply):
@@ -58,8 +60,7 @@ class SandBot:
         return self.answer_why_intent()
       elif found_match and intent == 'cubed_intent':
         return self.cubed_intent(found_match.groups()[0])
-      else:
-        return self.no_match_intent()
+    return self.no_match_intent()
 
 
   def describe_yourself_intent(self):
@@ -72,7 +73,7 @@ class SandBot:
 
   def cubed_intent(self, number):
     number = int(number)
-    cubed_number = number^3
+    cubed_number = number * number * number
     return (f"the cube of {number} is {cubed_number}. i do numbers... ")
 
   def no_match_intent(self):
