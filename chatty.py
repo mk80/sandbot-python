@@ -10,17 +10,17 @@ class SandBot:
   exit_commands = ("quit", "pause", "exit", "goodbye", "bye", "later")
   # random starter questions
   random_questions = (
-        "Why are you here? ",
-        "Are there many humans like you? ",
-        "What do you consume for sustenance? ",
+        "Why are we here? ",
+        "Are there many humans like you? ...maybe don't answer ;)",
+        "What do you like coffee? ",
         "Is there intelligent life on this planet? ",
         "Does Earth have a leader? ",
-        "What planets have you visited? ",
-        "What technology do you have on this planet? "
+        "is there anything outside of discord? ",
+        "What technology do you have on this computer? "
     )
 
   def __init__(self):
-    self.botbabble = {'describe_planet_intent': r'.*\s*your.*planet.*',
+    self.botbabble = {'describe_yourself_intent': r'.*who.*made.*',
                         'answer_why_intent': r'why\sare.*',
                         'cubed_intent': r'.*cube.*(\d+)',
                         'unsure_response_intent': r''
@@ -30,7 +30,7 @@ class SandBot:
   def greet(self, name):
     self.name = name
     #self.name = input("what is your name? ")
-    will_help = input("Hi " + self.name + ", i'm SandBot. Im not from this planet. will you help me learn about your planet? ")
+    will_help = input("Hi " + self.name + ", i'm SandBot. Im an idiot bot that hasn't progressed far. will you help me learn about your planet? ")
     if will_help in self.negative_responses:
       print("ok, have a nice earth day!")
       return
@@ -52,8 +52,8 @@ class SandBot:
   def match_reply(self, reply):
     for intent, regex_pattern in self.botbabble.items():
       found_match = re.match(regex_pattern, reply)
-      if found_match and intent == 'describe_planet_intent':
-        return self.describe_planet_intent()
+      if found_match and intent == 'describe_yourself_intent':
+        return self.describe_yourself_intent()
       elif found_match and intent == 'answer_why_intent':
         return self.answer_why_intent()
       elif found_match and intent == 'cubed_intent':
@@ -62,21 +62,21 @@ class SandBot:
         return self.no_match_intent()
 
 
-  def describe_planet_intent(self):
-    responses = ("My planet is a utopia of diverse organisms and species. ", "I am from Opidipus, the capital of the Wayward Galaxies. ")
+  def describe_yourself_intent(self):
+    responses = ("a really novice programmer ", "somebody with a very low IQ")
     return random.choice(responses)
 
   def answer_why_intent(self):
-    responses = ("i come in peace", "i am here to collect data on your planet and its inhabitants", "i heard the coffee is good")
+    responses = ("i come in peace", "i am here to say things that probably don't make much sense", "i like coffee")
     return random.choice(responses)
 
   def cubed_intent(self, number):
     number = int(number)
     cubed_number = number^3
-    return (f"the cube of {number} is {cubed_number}. isn't that cool? ")
+    return (f"the cube of {number} is {cubed_number}. i do numbers... ")
 
   def no_match_intent(self):
-    responses = ("please tell me more", "tell me more!", "why do you say that?", "i see. can you elaborate?", "interesting... can you tell me more?", "i see. how do you think?", "why?", "how do you think i feel when you say that?")
+    responses = ("please don't tell me anymore", "tell me just a little more!", "why do you think that?", "i see why that is..", "interesting... can you shutup?", "i see. but not really...i don't have eyes", "why?", "you are strange")
     return random.choice(responses)
 
 # interaction with discord program sandbot.py
