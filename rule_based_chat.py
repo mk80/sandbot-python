@@ -8,21 +8,12 @@ class SandBot:
   negative_responses = ("no", "nope", "nah", "naw", "not a chance", "sorry")
   # keywords for exiting the conversation
   exit_commands = ("quit", "pause", "exit", "goodbye", "bye", "later")
-  # random starter questions
-  random_questions = (
-        "Why are we here? ",
-        "Are there many humans like you? ...maybe don't answer ;)",
-        "What do you like coffee? ",
-        "Is there intelligent life on this planet? ",
-        "Does Earth have a leader? ",
-        "is there anything outside of discord? ",
-        "What technology do you have on this computer? "
-    )
-
+  
   def __init__(self):
     self.botbabble = {'describe_yourself_intent': r'.*who.*made.*',
                         'answer_why_intent': r'.*why.*are.*you.*',
                         'cubed_intent': r'.*cube.*(\d+)',
+                        'greeting_intent': r'h.*\ssandbot.*',
                         'unsure_response_intent': r''
                             }
 
@@ -37,23 +28,28 @@ class SandBot:
       return
     self.chat()
   '''
-
+  # moved into match_reply function
+  '''
   def make_exit(self, reply):
     for exit_command in self.exit_commands:
       if exit_command in reply:
-        print("ok, have a nice earth day!")
-        return True
+        return ("goodbye!")
     return False
+  '''
 
   # opening function called from outside function (sendNameandMessage)
   def chat(self, name, message):
-    reply = self.match_reply(message)
-    #reply = reply + ", " + (random.choice(self.random_questions))
+    reply = self.match_reply(name, message)
     return reply
 
-  def match_reply(self, reply):
+  def match_reply(self, name, reply):
+    for exit_command in self.exit_commands:
+      if exit_command in reply:
+        return("goodbye!")
     for intent, regex_pattern in self.botbabble.items():
       found_match = re.match(regex_pattern, reply)
+      if found_match and intent == 'greeting_intent':
+        return self.greeting_intent(name)
       if found_match and intent == 'describe_yourself_intent':
         return self.describe_yourself_intent()
       elif found_match and intent == 'answer_why_intent':
@@ -76,8 +72,25 @@ class SandBot:
     cubed_number = number * number * number
     return (f"the cube of {number} is {cubed_number}. i do numbers... ")
 
+  def greeting_intent(self, name):
+    responses = ("hello", "hello!", "hi", "hi!", "hola", "hola!")
+    reply = random.choice(responses)
+    return (reply + " " + name)
+
   def no_match_intent(self):
-    responses = ("please don't tell me anymore", "tell me just a little more!", "why do you think that?", "i see why that is..", "interesting... can you shutup?", "i see. but not really...i don't have eyes", "why?", "you are strange")
+    responses = ("please don't tell me anymore",
+                "tell me just a little more!",
+                "why do you think that?",
+                "i see why that is..",
+                "interesting... can you shutup?",
+                "i see. but not really...i don't have eyes",
+                "hmm.... nope",
+                "you are strange",
+                "why are we here? ",
+                "are there many humans like you? ...maybe don't answer ;)",
+                "What do you like coffee? ",
+                "is there intelligent life in this server? ",
+                "is there anything outside of discord? ")
     return random.choice(responses)
 
 # interaction with discord program sandbot.py
@@ -85,6 +98,5 @@ def sendNameandMessage(name, message):
   sandy = SandBot()
   message = message.lower()
   reply = sandy.chat(name, message)
-
   return reply
 
