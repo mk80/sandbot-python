@@ -7,7 +7,7 @@ class SandBot:
   # potential negative responses
   negative_responses = ("no", "nope", "nah", "naw", "not a chance", "sorry")
   # keywords for exiting the conversation
-  exit_commands = ("quit", "pause", "exit", "goodbye", "bye", "later")
+  exit_commands = ("quit", "pause", "exit", "goodbye", "bye", "later", "good bye")
   
   def __init__(self):
     self.botbabble = {'describe_yourself_intent': r'.*who.*made.*',
@@ -60,7 +60,7 @@ class SandBot:
 
 
   def describe_yourself_intent(self):
-    responses = ("a really novice programmer ", "somebody with a very low IQ")
+    responses = ("a really novice programmer ", "somebody with a very low IQ", "just an all around nice guy")
     return random.choice(responses)
 
   def answer_why_intent(self):

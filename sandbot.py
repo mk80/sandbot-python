@@ -1,14 +1,22 @@
 #!/usr/bin/python3
 
+import os
 import discord
 import re
 from rule_based_chat import sendNameandMessage
 
+# get present working dir
+pwd = os.getcwd()
+
+# define file that has the token and store in token var
 token_file = 'token.txt'
 token = ''
 
 with open(token_file,'r') as data:
   token = data.read().replace('\n','')
+
+# define log file to use
+log_file = pwd + '/' + 'chat.log'
 
 # start discord client
 client = discord.Client()
@@ -19,11 +27,13 @@ bot_name = (r'.*sandbot.*')
 
 @client.event  # event decorator/wrapper. More on decorators here: https://pythonprogramming.net/decorators-intermediate-python-tutorial/
 async def on_ready():  # method expected by client. This runs once when connected
-  print(f'We have logged in as {client.user}')  # notification of login.
+  with open(log_file,'a') as log:
+    log.write(f'We have logged in as {client.user}\n')  # notification of login
 
 @client.event
 async def on_message(message):  # event that happens per any message.
-  print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
+  with open(log_file,'a') as log:
+    log.write(f"{message.channel}: {message.author}: {message.author.name}: {message.content}\n")
 
   # regex match for sandbot name
   found_match = re.match(bot_name,message.content.lower())
