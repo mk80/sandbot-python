@@ -1,0 +1,18 @@
+sudo pip3 install regex
+sudo pip3 install discord
+sudo pip3 install nltk
+sudo pip3 install py-collections
+sudo pip3 install spacy
+
+# different sizes; sm doesn't have word vector tensors
+sudo python3 -m spacy download en_core_web_sm
+sudo python3 -m spacy download en_core_web_md
+sudo python3 -m spacy download en_core_web_lg
+
+# all nltk data is about 3.3G
+sudo python3 -m nltk.downloader -d /usr/share/nltk_data all
+
+# indiviual packages so far required
+sudo python3 -m nltk.downloader -d /usr/share/nltk_data stopwords
+sudo python3 -m nltk.downloader -d /usr/share/nltk_data punkt
+sudo python3 -m nltk.downloader -d /usr/share/nltk_data averaged_perceptron_tagger

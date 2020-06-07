@@ -1,12 +1,27 @@
 #!/usr/bin/python3
 
 import os
+import sys
 import discord
 import re
-from rule_based_chat import sendNameandMessage
+from rule_based_chat import sendToRule
+from retrieval_based_chat import sendToRetrieval
 
 # get present working dir
 pwd = os.getcwd()
+
+# arg for bot type
+
+bot_type_check = ("rule", "retrieval", "generative")
+if len(sys.argv) == 1:
+  print("please provide bot type:\nrule\nretrieval\n")
+  sys.exit(1)
+else:
+  bot_type = sys.argv[1]
+
+if bot_type not in bot_type_check:
+  print("please provide bot type:\nrule\nretrieval\n")
+  sys.exit(1)
 
 # define file that has the token and store in token var
 token_file = 'token.txt'
@@ -22,7 +37,7 @@ log_file = pwd + '/' + 'chat.log'
 client = discord.Client()
 
 # regex definitions
-greetings = (r'h.*\ssandbot.*')
+#greetings = (r'h.*\ssandbot.*')
 bot_name = (r'.*sandbot.*')
 
 @client.event  # event decorator/wrapper. More on decorators here: https://pythonprogramming.net/decorators-intermediate-python-tutorial/
@@ -47,7 +62,11 @@ async def on_message(message):  # event that happens per any message.
         #  await message.channel.send(reply)
         # entry into chatbot
         # else:
-    reply = sendNameandMessage(str(message.author.name),message.content.lower())
-    await message.channel.send(reply)
+    if (bot_type == 'rule'):
+      reply = sendToRule(str(message.author.name),message.content.lower())
+      await message.channel.send(reply)
+    elif (bot_type == 'retrieval'):
+      reply = sendToRetrieval(str(message.author.name),message.content.lower())
+      await message.channel.send(reply)
 
 client.run(token)
