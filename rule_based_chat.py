@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# based off codecademy lessons
+
 import re
 import random
 
@@ -94,7 +96,7 @@ class SandBot:
     return random.choice(responses)
 
 # interaction with discord program sandbot.py
-def sendNameandMessage(name, message):
+def sendToRule(name, message):
   sandy = SandBot()
   message = message.lower()
   reply = sandy.chat(name, message)
