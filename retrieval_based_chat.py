@@ -12,8 +12,10 @@ from retrieval_functions import preprocess, compare_overlap, pos_tag, extract_no
 import spacy
 word2vec = spacy.load('en_core_web_md')
 pwd = os.getcwd()
-stanfordModel = pwd + '/stanford-tagger-4.0.0/models/' + 'english-bidirectional-distsim.tagger'
-stanfordJar = pwd + '/stanford-tagger-4.0.0/' + 'stanford-postagger.jar'
+#stanfordModel = pwd + '/stanford-tagger-4.0.0/models/' + 'english-bidirectional-distsim.tagger'
+stanfordModel = pwd + '/stanford-postagger-full-2020-11-17/models/' + 'english-bidirectional-distsim.tagger'
+#stanfordJar = pwd + '/stanford-tagger-4.0.0/' + 'stanford-postagger.jar'
+stanfordJar = pwd + '/stanford-postagger-full-2020-11-17/' + 'stanford-postagger.jar'
 stanPOS = StanfordPOSTagger(stanfordModel, stanfordJar)
 
 negative_response = ("nah", "nope", "none")
