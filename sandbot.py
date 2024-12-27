@@ -34,7 +34,9 @@ with open(token_file,'r') as data:
 log_file = pwd + '/' + 'chat.log'
 
 # start discord client
-client = discord.Client()
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
 
 # regex definitions
 #greetings = (r'h.*\ssandbot.*')
