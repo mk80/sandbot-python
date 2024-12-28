@@ -6,6 +6,7 @@ import discord
 import re
 from rule_based_chat import sendToRule
 from retrieval_based_chat import sendToRetrieval
+from generative_based_chat import sendToGenerative
 
 # get present working dir
 pwd = os.getcwd()
@@ -69,6 +70,9 @@ async def on_message(message):  # event that happens per any message.
       await message.channel.send(reply)
     elif (bot_type == 'retrieval'):
       reply = sendToRetrieval(str(message.author.name),message.content.lower())
+      await message.channel.send(reply)
+    elif (bot_type == 'generative'):
+      reply = sendToGenerative(str(message.author.name),message.content.lower())
       await message.channel.send(reply)
 
 client.run(token)
