@@ -9,7 +9,7 @@ import json
 class SandBot:
   def __init__(self):
     self.chat_payload = {
-      "model": "llama2-uncensored",
+      "model": "wizard-vicuna-uncensored:30b",
       "prompt": "why are we here?",
       "stream": False,
       "keep_alive": "24h"
