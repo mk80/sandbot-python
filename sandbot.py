@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!./venv/bin/python3
 
 import os
 import sys
@@ -7,6 +7,7 @@ import re
 from rule_based_chat import sendToRule
 from retrieval_based_chat import sendToRetrieval
 from generative_based_chat import sendToGenerative
+from generative_based_chat import SandBot
 
 # get present working dir
 pwd = os.getcwd()
@@ -15,13 +16,13 @@ pwd = os.getcwd()
 
 bot_type_check = ("rule", "retrieval", "generative")
 if len(sys.argv) == 1:
-  print("please provide bot type:\nrule\nretrieval\n")
+  print("please provide bot type:\nrule\nretrieval\ngenerative\n")
   sys.exit(1)
 else:
   bot_type = sys.argv[1]
 
 if bot_type not in bot_type_check:
-  print("please provide bot type:\nrule\nretrieval\n")
+  print("please provide bot type:\nrule\nretrieval\ngenerative\n")
   sys.exit(1)
 
 # define file that has the token and store in token var
@@ -42,6 +43,9 @@ client = discord.Client(intents=intents)
 # regex definitions
 #greetings = (r'h.*\ssandbot.*')
 bot_name = (r'.*sandbot.*')
+
+# init sandy
+sandy = SandBot()
 
 @client.event  # event decorator/wrapper. More on decorators here: https://pythonprogramming.net/decorators-intermediate-python-tutorial/
 async def on_ready():  # method expected by client. This runs once when connected
@@ -72,7 +76,7 @@ async def on_message(message):  # event that happens per any message.
       reply = sendToRetrieval(str(message.author.name),message.content.lower())
       await message.channel.send(reply)
     elif (bot_type == 'generative'):
-      reply = sendToGenerative(str(message.author.name),message.content.lower())
+      reply = sendToGenerative(sandy,str(message.author.name),message.content.lower())
       await message.channel.send(reply)
 
 client.run(token)
